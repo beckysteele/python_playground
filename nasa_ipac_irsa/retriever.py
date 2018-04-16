@@ -52,14 +52,22 @@ longcols=["designation","ra","dec","sigra","sigdec","sigradec","glon","glat",\
 #Join longcols into a list so that you can dynamically feed newcols into the URL with the correct format.
 newcols = ','.join(longcols) 
 
-#Form the query URL. The query parameters selected here are:
-# spatial=box
-# catalog=allwise_p3as_psd
-# objstr=00h+42m+44.32s (this is the ra) +41d+16m+08.5s (this is the dec)
-# size=300 (width of box in arcsec, only required if spatial=box)
-# outfmt=6 (XML output)
-# selcols={}".format(newcols) (this dynamically passes in newcols with correct formatting)
-url = "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?spatial=box&catalog=allwise_p3as_psd&objstr=343.38587+-33.71781&size=3&outfmt=6&selcols={}".format(newcols)
+#Form the query URL. Refer to these docs and enter the desired values below: The query parameters selected here are:
+# spatial -- spatial search area. box is currently configured, will add other options later.
+# catalog -- name of the catalog to search (currently configured: allwise_p3as_psd)
+# objstr -- can receive multiple coordinate/object name formats. See here for options: https://irsa.ipac.caltech.edu/applications/Gator/GatorAid/irsa/singleobject.html
+# size -- width of box in arcsec, only required if spatial=box. Showing size=3 for galaxy targets.
+# outfmt -- output format (currently configured for outfmt=6, XML output)
+# selcols -- This is currently configured to receive newcols object, which is the correctly formatted longcols or "long form" option)
+
+# Modify these parameters to change the API GET request:
+spatial="box"
+catalog="allwise_p3as_psd"
+objstr="343.38587+-33.71781"
+size=3
+outfmt=6
+
+url = "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?spatial={spatial}&catalog={catalog}&objstr={objstr}&size={size}&outfmt={outfmt}&selcols={newcols}".format(spatial=spatial,catalog=catalog,objstr=objstr,size=size,outfmt=outfmt,newcols=newcols)
 
 #Request data from the API using that URL, and store the response as data.
 data = requests.get(url)

@@ -66,7 +66,7 @@ outfmt='6'
 uradius=''
 
 # Form the data payload:
-data = {'spatial':spatial,'catalog':catalog,'uradius':uradius,'outfmt':outfmt}
+data = {'spatial':spatial,'catalog':catalog,'uradius':uradius,'outfmt':outfmt,'selcols':newcols}
 
 # Form the POST URL:
 url = 'https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query'

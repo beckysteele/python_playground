@@ -1,5 +1,5 @@
 # This is a Python script for retrieving data from the NASA/IPAC Infrared Science Archive (IRSA).
-# In this particular code, I'm retrieving data from the WISE All-Sky Survey.
+# In this particular code, I'm uploading a list of sources, and opening a new browser tab to the search results from the WISE All-Sky Survey.
 # Data on how to use the Gator API can be found here: https://irsa.ipac.caltech.edu/applications/Gator/GatorAid/irsa/catsearch.html
 
 # Import libs
@@ -52,29 +52,32 @@ longcols=["designation","ra","dec","sigra","sigdec","sigradec","glon","glat",\
 #Join longcols into a list so that you can dynamically feed newcols into the URL with the correct format.
 newcols = ','.join(longcols) 
 
-#Form the query URL. Refer to these docs and enter the desired values below: The query parameters selected here are:
-# spatial -- spatial search area. box is currently configured, will add other options later.
+#Form the API POST object. Refer to these docs to select the desired parameters: https://irsa.ipac.caltech.edu/applications/Gator/GatorAid/irsa/catsearch.html 
+# spatial -- spatial search area. Enter "Upload" to refer to a list of sources in your targets.tbl. 
 # catalog -- name of the catalog to search (currently configured: allwise_p3as_psd)
-# objstr -- can receive multiple coordinate/object name formats. See here for options: https://irsa.ipac.caltech.edu/applications/Gator/GatorAid/irsa/singleobject.html
-# size -- width of box in arcsec, only required if spatial=box. Showing size=3 for galaxy targets.
 # outfmt -- output format (currently configured for outfmt=6, XML output)
 # selcols -- This is currently configured to receive newcols object, which is the correctly formatted longcols or "long form" option)
 
-# Modify these parameters to change the API GET request:
-spatial="box"
+# Modify these parameters to change the API form POST:
+spatial="Upload"
+filename="@targets.tbl" #you must have a file called 'targets.tbl' saved in the same directory as this Python script, and it must be a valid IPAC table. You can validate your table here: https://irsa.ipac.caltech.edu/applications/TblValidator/
 catalog="allwise_p3as_psd"
-objstr="343.38587+-33.71781"
-size=3
-outfmt=6
+outfmt='6'
+uradius=''
 
-url = "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?spatial={spatial}&catalog={catalog}&objstr={objstr}&size={size}&outfmt={outfmt}&selcols={newcols}".format(spatial=spatial,catalog=catalog,objstr=objstr,size=size,outfmt=outfmt,newcols=newcols)
+# Form the data payload:
+data = {'spatial':spatial,'catalog':catalog,'uradius':uradius,'outfmt':outfmt}
 
-#Request data from the API using that URL, and store the response as data.
-data = requests.get(url)
+# Form the POST URL:
+url = 'https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query'
+
+#POST the form data to the API using that URL, local targets.tbl file, and the payload, and store the response as r.
+f = open('targets.tbl', 'rb')
+r = requests.post(url, files={'filename':f,'Content-Type':'multipart/form-data'}, data=data)
 
 #Write that data to a retrieved_data.text file
 with open ('retrieved_data.xml', 'w') as output_file:
-	output_file.write(data.text)
+	output_file.write(r.text)
 
 #Parse the XML to retrieve the output HTML URL for the object
 tree = ET.parse('retrieved_data.xml')

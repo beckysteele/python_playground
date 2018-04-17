@@ -2,12 +2,12 @@
 
 <result status="OK">
   <description> AllWISE Source Catalog </description>
-  <datatag> ADS/IRSA.Gator#2018/0416/165117_12233 </datatag>
+  <datatag> ADS/IRSA.Gator#2018/0416/201629_18421 </datatag>
   <output> 
-    <counts> 1 </counts>
-    <outHTML> https://irsa.ipac.caltech.edu:443/workspace/TMP_orrNFG_12233/Gator/irsa/12233/tbview.html</outHTML>
-    <outASCII> https://irsa.ipac.caltech.edu:443/workspace/TMP_orrNFG_12233/Gator/irsa/12233/wise_allwise.allwise_p3as_psd12233.tbl </outASCII>
-    <outDD> https://irsa.ipac.caltech.edu:443/workspace/TMP_orrNFG_12233/Gator/irsa/12233/dd_12233.html </outDD>
-    <outLOG>https://irsa.ipac.caltech.edu:443/workspace/TMP_orrNFG_12233/Gator/irsa/12233/log.12233.html </outLOG>
+    <counts> 53 </counts>
+    <outHTML> https://irsa.ipac.caltech.edu:443/workspace/TMP_Yaaco7_18421/Gator/irsa/18421/tbview.html</outHTML>
+    <outASCII> https://irsa.ipac.caltech.edu:443/workspace/TMP_Yaaco7_18421/Gator/irsa/18421/wise_allwise.allwise_p3as_psd18421.tbl </outASCII>
+    <outDD> https://irsa.ipac.caltech.edu:443/workspace/TMP_Yaaco7_18421/Gator/irsa/18421/dd_18421.html </outDD>
+    <outLOG>https://irsa.ipac.caltech.edu:443/workspace/TMP_Yaaco7_18421/Gator/irsa/18421/log.18421.html </outLOG>
   </output> 
 </result>

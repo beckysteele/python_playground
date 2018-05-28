@@ -7,6 +7,8 @@ from astropy import constants as const
 from astropy import units as u
 from astropy import cosmology
 
+# Becky comments
+
 datadir = '/disks/strw9/BO_XUV/Catalogue/'
 
 Mag_sun_w1 = 3.254
@@ -31,7 +33,8 @@ h0_error = 2.4 # km/(Mpc*s)
 parsec = 3.08567758e16 #m
 jansky = 1e-26 #W/m^2/Hz
 
-
+# In order to use this function, need to calculate cz and cz_error and pass as args
+# Use redshift as a parameter directly instead of doing cz stuff.
 def velocity(cz, cz_error):
 	z = cz/c
 	v = c * ((1+z)**2 -1)/((1+z)**2+1) #v in km/s
@@ -41,7 +44,8 @@ def velocity(cz, cz_error):
 	#print 'v: ', v
 	#print 'verr: ', v_error
 	return v, v_error #km/s
-	
+
+# In order to use this function, need to execute velocity() first	
 def distance(v, v_error):
 	D = v/h0 #D in Mpc
 	D = D * 1e6 #D in pc
@@ -50,6 +54,7 @@ def distance(v, v_error):
 	#print 'Derr: ', D_error
 	return D, D_error #pc
 
+# Absolute magnitude calculation. In order to use this function, need to do distance() and velocity() first.
 def Mag(D, D_error, m, m_error):
 	M = m-5*np.log10(D) + 5
 	M_error = np.sqrt((m_error)**2+(D_error*(-5)/(D*np.log(10)))**2)
@@ -57,6 +62,7 @@ def Mag(D, D_error, m, m_error):
 	#print 'Merr: ', M_error
 	return M, M_error
 
+# Luminosity calculation. Need to run Mag(), distance(), velocity() first.
 def luminosity(M, M_error, Mag_sun, Mag_sun_error):
 	L = 10**(0.4*(Mag_sun - M)) #L in solar luminosities
 	a = np.log(10**0.4)
@@ -64,7 +70,8 @@ def luminosity(M, M_error, Mag_sun, Mag_sun_error):
 	#print 'L: ', L
 	#print 'Lerr: ', L_error
 	return L, L_error
-	
+
+# Stellar mass estimation based on 0.6*L.	
 def mass(L, L_error):
 	M = L*0.6 #M in solar mass
 	M_error = 0.6*L_error
@@ -72,6 +79,7 @@ def mass(L, L_error):
 	#print 'Masserr: ', M_error
 	return M, M_error
 
+# Calculated mass based on calculated absolute and apparent mag
 def calculate_mass(cz, cz_error, m, m_error, Mag_sun, Mag_sun_error):
 	v, v_error = velocity(cz, cz_error)
 	D, D_error = distance(v, v_error)
@@ -81,6 +89,7 @@ def calculate_mass(cz, cz_error, m, m_error, Mag_sun, Mag_sun_error):
 	#M, M_error = mass(luminosity(Mag((distance(*velocity(cz))), m, m_error)))
 	return Mass, Mass_error
 
+# Star formation rate based on cz, m, nu, zp, a
 def SFR(cz, cz_error, m, m_error, nu, nu_error, zp, zp_error, a):
 	v, v_error = velocity(cz, cz_error) #km/s
 	
@@ -104,15 +113,18 @@ def SFR(cz, cz_error, m, m_error, nu, nu_error, zp, zp_error, a):
 	SFR_error = lumdens_error*a[0]*10**(-a[1])*lumdens**(a[0]-1)
 	return SFR, SFR_error
 
+# Estimated SFR based on two WISE bands, wa - wb
 def SFR_barbaric(wa, wa_error, wb, wb_error):
 	wa_wb = wa - wb
 	wa_wb_error = np.sqrt(wa_error**2 + wb_error**2)
 	return wa_wb, wa_wb_error
-	
+
+# Radius estimate	
 def radius(D, angle): 
 	rad_angle = (angle/60)*(np.pi/180) #arcmin to radians
 	return D*np.tan(rad_angle/2) #D in pc -> radius in pc #no error
-	
+
+# This returns the SFR per square area and its error	
 def sig(dist, major, minor, SFR, e_SFR):
 	opp = np.pi*radius(dist, major)*radius(dist, minor) #pc^2
 	#print radius(dist,major)*3.26163344 #to ly
@@ -121,7 +133,7 @@ def sig(dist, major, minor, SFR, e_SFR):
 	print sig
 	return sig, e_sig	
 
-
+# Writes calcs to files
 total = np.loadtxt(datadir + 'total_2mass_wise_huchra_calc_new2.txt', skiprows = 7, dtype='string')
 lem = np.loadtxt(datadir + 'total_lemonias_cor_calc_new3.txt', skiprows = 8, dtype='string')
 thi = np.loadtxt(datadir + 'total_thilker_cor_calc_new3.txt', skiprows = 8, dtype='string')

@@ -1,4 +1,4 @@
-# GAMA id, ra, dec, z, template, cc_sigma, z, template, cc_sigma, specid
+cata_id    ra            dec        z1  template1   cc_sigma  z2 template2  cc_sigma   spec_id
 01217811   33.6095   -4.2331    0.1544  44   6.6    0.1813  40   7.1  G02_Y3_001_237 
 02379807   37.1602   -4.0345    0.3289  46   8.6    0.3329  40  10.8  G02_Y3_016_301 
 01126606   33.8951   -6.5514    0.2173  40   9.8    0.7493  43   5.1  G02_Y3_018_199 

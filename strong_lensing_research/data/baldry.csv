@@ -1,4 +1,4 @@
-,cata_id,ra,dec,z1,template1,cc_sigma,z2,template2,cc_sigma.1,spec_id,t1_type,t2_type,spec_type
+,cataid,ra,dec,z1,template1,cc_sigma,z2,template2,cc_sigma.1,spec_id,t1_type,t2_type,spec_type
 5,1568229,30.6926,-4.1357,0.2909,40,5.9,0.4126,40,5.8,G02_Y4_033_347,PG,PG,PG+PG
 25,300979,131.4675,1.1988,0.1455,40,6.8,0.7164,40,5.8,G09_Y1_BN2_395,PG,PG,PG+PG
 50,302123,136.4636,1.3117,0.4699,40,6.5,0.6454,40,6.1,G09_Y2_037_185,PG,PG,PG+PG

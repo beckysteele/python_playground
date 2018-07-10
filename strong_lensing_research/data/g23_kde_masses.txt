@@ -1,4 +1,4 @@
-#     CATAID          Z   logmstar    dellogm     neff
+     cataidGAMA  gama_z   logMstarGAMA    dellogm     neff
      5100030     0.0281     8.7433     0.1205     9.10
      5100033     0.0571     8.7952     0.1514    30.19
      5100046     0.0759    10.4905     0.0622     2.98
